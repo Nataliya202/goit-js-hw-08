@@ -15,28 +15,36 @@ const refs = {
     input: document.querySelector('input')
 }
 
+
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input', throttle(onTextareaInput, 500));
+
 
 populateTextarea();
 
 function onFormSubmit(evt) {
     evt.preventDefault();
+    formData.email = refs.input.value;
+    formData.message = refs.textarea.value;
+    console.log('Отправляем форму');
     evt.currentTarget.reset();
-    localStorage.removeItem('STORAGE_KEY');
+    localStorage.removeItem(STORAGE_KEY);
     console.log(formData);
- }
+    
+};
 
 function onTextareaInput(evt) {
     formData[evt.target.name] = evt.target.value;
-    const stringifiedData = JSON.stringify(formData);
-    localStorage.setItem('STORAGE_KEY', stringifiedData);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+
 }
+    
  
 function populateTextarea() {
-    const savedMessage = localStorage.getItem('STORAGE_KEY');
+    const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (savedMessage === null) {
         return;
+        
     }
     refs.textarea.value = savedMessage.message || '';
     refs.input.value = savedMessage.email || '';
