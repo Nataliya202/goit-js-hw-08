@@ -24,8 +24,6 @@ populateTextarea();
 
 function onFormSubmit(evt) {
     evt.preventDefault();
-    formData.email = refs.input.value;
-    formData.message = refs.textarea.value;
     console.log('Отправляем форму');
     evt.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
@@ -34,6 +32,8 @@ function onFormSubmit(evt) {
 };
 
 function onTextareaInput(evt) {
+    formData.email = refs.input.value;
+    formData.message = refs.textarea.value;
     formData[evt.target.name] = evt.target.value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 
